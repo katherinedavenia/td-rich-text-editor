@@ -37,5 +37,21 @@ module.exports = {
     'no-nested-ternary': 'off',
     'function-declaration': 'off',
     'function-component-definition': 'off',
+    'react/function-component-definition': [
+      {
+        namedComponents:
+          'function-declaration' |
+          'function-expression' |
+          'arrow-function' |
+          'function-declaration' |
+          'function-expression' |
+          'arrow-function',
+        unnamedComponents:
+          'function-expression' |
+          'arrow-function' |
+          'function-expression' |
+          'arrow-function',
+      },
+    ],
   },
 };

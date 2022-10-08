@@ -1,6 +1,4 @@
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/function-component-definition */
 import React, { useCallback, useMemo, useState } from 'react';
 import isHotkey from 'is-hotkey';
 import {

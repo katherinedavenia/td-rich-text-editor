@@ -1,4 +1,3 @@
-/* eslint-disable react/function-component-definition */
 import React from 'react';
 import { Box, Button, Container } from '@mui/material';
 import { AddPhotoAlternate, InsertEmoticon } from '@mui/icons-material';
@@ -83,9 +82,9 @@ const Header = ({
         <Box
           sx={{
             position: 'absolute',
-            top: bgImage ? '290px' : '190px',
-            left: headerEmoji ? '120px' : '150px',
-            transform: 'translateY(-3px)',
+            top: '320px',
+            left: '165px',
+            transform: 'translateY(-4px)',
             zIndex: 10,
           }}
         >
