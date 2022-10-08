@@ -35,5 +35,7 @@ module.exports = {
     'no-useless-concat': 'warn',
     'no-trailing-spaces': 'error',
     'no-nested-ternary': 'off',
+    'function-declaration': 'off',
+    'function-component-definition': 'off',
   },
 };
