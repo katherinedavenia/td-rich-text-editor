@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import React, { useMemo } from 'react';
 import { Box, Container } from '@mui/material';
 import { createEditor } from 'slate';

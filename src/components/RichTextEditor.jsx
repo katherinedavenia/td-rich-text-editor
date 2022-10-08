@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useMemo, useState } from 'react';
 import isHotkey from 'is-hotkey';
@@ -36,54 +37,6 @@ const initialValue = [
     children: [{ text: '' }],
   },
 ];
-
-const formStyle = {
-  minHeight: 0,
-  height: '40px !important',
-  width: '125px',
-  mr: '14px',
-  fontSize: '14px',
-};
-
-const formButtonStyle = {
-  color: '#000',
-  padding: '6px 16px',
-  minHeight: 0,
-  width: '100%',
-  textTransform: 'none',
-};
-
-const DropdownMenuItem = ({ value, onMouseDown, title }) => (
-  <MenuItem value={value} sx={{ padding: 0 }}>
-    <Button onMouseDown={onMouseDown} sx={formButtonStyle}>
-      {title}
-    </Button>
-  </MenuItem>
-);
-
-const DropdownContainer = ({
-  value,
-  onChange,
-  renderValue,
-  placeholder,
-  children,
-}) => (
-  <FormControl>
-    <Select
-      displayEmpty
-      value={value}
-      onChange={onChange}
-      input={<OutlinedInput />}
-      renderValue={renderValue}
-      sx={formStyle}
-    >
-      <MenuItem disabled value={value}>
-        <span>{placeholder}</span>
-      </MenuItem>
-      {children}
-    </Select>
-  </FormControl>
-);
 
 const HOTKEYS = {
   'ctrl+b': 'bold',
@@ -126,10 +79,6 @@ const toggleBlock = (editor, format) => {
   }
 };
 
-const toggleSelect = (editor, format, selected) => {
-  Editor.addMark(editor, format, selected);
-};
-
 const toggleMark = (editor, format) => {
   const isActive = isMarkActive(editor, format);
 
@@ -138,6 +87,10 @@ const toggleMark = (editor, format) => {
   } else {
     Editor.addMark(editor, format, true);
   }
+};
+
+const toggleSelect = (editor, format, selected) => {
+  Editor.addMark(editor, format, selected);
 };
 
 const BlockButton = ({ format, icon }) => {
@@ -242,11 +195,152 @@ const Leaf = ({ children, leaf }) => {
   return <span style={style}>{children}</span>;
 };
 
+const formStyle = {
+  minHeight: 0,
+  height: '40px !important',
+  width: '125px',
+  mr: '14px',
+  fontSize: '14px',
+};
+
+const formButtonStyle = {
+  color: '#000',
+  padding: '6px 16px',
+  minHeight: 0,
+  width: '100%',
+  textTransform: 'none',
+};
+
+const DropdownMenuItem = ({ value, onMouseDown, title }) => (
+  <MenuItem value={value} sx={{ padding: 0 }}>
+    <Button onMouseDown={onMouseDown} sx={formButtonStyle}>
+      {title}
+    </Button>
+  </MenuItem>
+);
+
+const DropdownContainer = ({
+  value,
+  onChange,
+  renderValue,
+  placeholder,
+  children,
+}) => (
+  <FormControl>
+    <Select
+      displayEmpty
+      value={value}
+      onChange={onChange}
+      input={<OutlinedInput />}
+      renderValue={renderValue}
+      sx={formStyle}
+    >
+      <MenuItem disabled value={value}>
+        <span>{placeholder}</span>
+      </MenuItem>
+      {children}
+    </Select>
+  </FormControl>
+);
+
+const FontSizePicker = ({ editor }) => {
+  const fontSizes = [
+    5, 5.5, 6.5, 7.5, 8, 9, 10, 10.5, 11, 12, 14, 16, 18, 20, 22, 24, 28, 36,
+    48, 72,
+  ];
+  const [fontSize, setFontSize] = useState(16);
+
+  return (
+    <DropdownContainer
+      value={fontSize}
+      onChange={(event) => setFontSize(event.target.value)}
+      renderValue={() => {
+        if (fontSize === 16) {
+          return <span>Font Size</span>;
+        }
+        return <span>{fontSize}</span>;
+      }}
+      placeholder="Font Size"
+    >
+      {fontSizes.map((selected) => (
+        <DropdownMenuItem
+          value={selected}
+          onMouseDown={(event) => {
+            event.preventDefault();
+            toggleSelect(editor, 'fontSizeSelect', selected);
+          }}
+          title={selected.toString()}
+        />
+      ))}
+    </DropdownContainer>
+  );
+};
+
+const LineHeightPicker = ({ editor }) => {
+  const lineHeights = [1.2, 1.5, 2.0, 2.5, 3.0];
+  const [lineHeight, setLineHeight] = useState(1.2);
+  return (
+    <DropdownContainer
+      value={lineHeight}
+      onChange={(event) => setLineHeight(event.target.value)}
+      renderValue={() => {
+        if (lineHeight === 1.2) {
+          return <span>Line Height</span>;
+        }
+        return <span>{lineHeight}</span>;
+      }}
+      placeholder="Line Height"
+    >
+      {lineHeights.map((selected) => (
+        <DropdownMenuItem
+          value={selected}
+          onMouseDown={(event) => {
+            event.preventDefault();
+            toggleSelect(editor, 'lineHeightSelect', selected);
+          }}
+          title={selected.toString()}
+        />
+      ))}
+    </DropdownContainer>
+  );
+};
+
+const TextCasePicker = ({ editor }) => {
+  const textCases = ['Lowercase', 'Uppercase', 'Capitalize'];
+  const [textCase, setTextCase] = useState('Initial');
+
+  return (
+    <DropdownContainer
+      value={textCase}
+      onChange={(event) => setTextCase(event.target.value)}
+      renderValue={() => {
+        if (textCase === 'Initial') {
+          return <span>Text Case</span>;
+        }
+        return <span>{textCase}</span>;
+      }}
+      placeholder="Text Case"
+    >
+      {textCases.map((selected) => (
+        <DropdownMenuItem
+          value={selected}
+          onMouseDown={(event) => {
+            event.preventDefault();
+            toggleSelect(editor, 'textCaseSelect', selected);
+          }}
+          title={selected.toString()}
+        />
+      ))}
+    </DropdownContainer>
+  );
+};
+
 const RichTextEditor = () => {
   const [showToolBar, setShowToolbar] = useState(true);
   const [value, setValue] = useState(initialValue);
 
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback(
     (props) => (
@@ -256,18 +350,6 @@ const RichTextEditor = () => {
     ),
     [],
   );
-
-  const fontSizes = [
-    5, 5.5, 6.5, 7.5, 8, 9, 10, 10.5, 11, 12, 14, 16, 18, 20, 22, 24, 28, 36,
-    48, 72,
-  ];
-  const [fontSize, setFontSize] = useState(16);
-
-  const lineHeights = [1.2, 1.5, 2.0, 2.5, 3.0];
-  const [lineHeight, setLineHeight] = useState(1.2);
-
-  const textCases = ['Lowercase', 'Uppercase', 'Capitalize'];
-  const [textCase, setTextCase] = useState('Initial');
 
   const buttonStyle = {
     color: '#9eb9e8',
@@ -291,72 +373,9 @@ const RichTextEditor = () => {
             }}
           >
             <Box>
-              <DropdownContainer
-                value={fontSize}
-                onChange={(event) => setFontSize(event.target.value)}
-                renderValue={() => {
-                  if (fontSize === 16) {
-                    return <span>Font Size</span>;
-                  }
-                  return <span>{fontSize}</span>;
-                }}
-                placeholder="Font Size"
-              >
-                {fontSizes.map((selected) => (
-                  <DropdownMenuItem
-                    value={selected}
-                    onMouseDown={(event) => {
-                      event.preventDefault();
-                      toggleSelect(editor, 'fontSizeSelect', selected);
-                    }}
-                    title={selected.toString()}
-                  />
-                ))}
-              </DropdownContainer>
-              <DropdownContainer
-                value={lineHeight}
-                onChange={(event) => setLineHeight(event.target.value)}
-                renderValue={() => {
-                  if (lineHeight === 1.2) {
-                    return <span>Line Height</span>;
-                  }
-                  return <span>{lineHeight}</span>;
-                }}
-                placeholder="Line Height"
-              >
-                {lineHeights.map((selected) => (
-                  <DropdownMenuItem
-                    value={selected}
-                    onMouseDown={(event) => {
-                      event.preventDefault();
-                      toggleSelect(editor, 'lineHeightSelect', selected);
-                    }}
-                    title={selected.toString()}
-                  />
-                ))}
-              </DropdownContainer>
-              <DropdownContainer
-                value={textCase}
-                onChange={(event) => setTextCase(event.target.value)}
-                renderValue={() => {
-                  if (textCase === 'Initial') {
-                    return <span>Text Case</span>;
-                  }
-                  return <span>{textCase}</span>;
-                }}
-                placeholder="Text Case"
-              >
-                {textCases.map((selected) => (
-                  <DropdownMenuItem
-                    value={selected}
-                    onMouseDown={(event) => {
-                      event.preventDefault();
-                      toggleSelect(editor, 'textCaseSelect', selected);
-                    }}
-                    title={selected.toString()}
-                  />
-                ))}
-              </DropdownContainer>
+              <FontSizePicker editor={editor} />
+              <LineHeightPicker editor={editor} />
+              <TextCasePicker editor={editor} />
             </Box>
             <Box>
               <MarkButton
@@ -481,6 +500,18 @@ BlockButton.propTypes = {
 MarkButton.propTypes = {
   format: PropTypes.string,
   icon: PropTypes.node,
+};
+
+FontSizePicker.propTypes = {
+  editor: PropTypes.shape(),
+};
+
+LineHeightPicker.propTypes = {
+  editor: PropTypes.shape(),
+};
+
+TextCasePicker.propTypes = {
+  editor: PropTypes.shape(),
 };
 
 export default RichTextEditor;

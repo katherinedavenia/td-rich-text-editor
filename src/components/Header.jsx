@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import React from 'react';
 import { Box, Button, Container } from '@mui/material';
 import { AddPhotoAlternate, InsertEmoticon } from '@mui/icons-material';
