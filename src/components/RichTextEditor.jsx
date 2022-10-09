@@ -30,6 +30,7 @@ import {
   LooksOne,
   LooksTwo,
 } from '@mui/icons-material';
+import useResponsive from '../lib/useResponsive';
 
 const initialValue = [
   {
@@ -105,8 +106,10 @@ const BlockButton = ({ format, icon }) => {
       sx={{
         minWidth: 0,
         backgroundColor: '#f9f9f9',
-        ml: '14px',
+        mr: { xs: '7px', sm: '14px', md: 0 },
+        ml: { md: '14px' },
         padding: '0px 0px !important',
+        mb: { xs: '7px', md: 0 },
       }}
     >
       {icon}
@@ -126,8 +129,10 @@ const MarkButton = ({ format, icon }) => {
       sx={{
         minWidth: 0,
         backgroundColor: '#f9f9f9',
-        ml: '14px',
+        mr: { xs: '7px', sm: '14px', md: 0 },
+        ml: { md: '14px' },
         padding: '0px 0px !important',
+        mb: { xs: '7px', sm: 0 },
       }}
     >
       {icon}
@@ -196,11 +201,12 @@ const Leaf = ({ children, leaf }) => {
 };
 
 const formStyle = {
-  minHeight: 0,
-  height: '40px !important',
-  width: '125px',
-  mr: '14px',
   fontSize: '14px',
+  minHeight: 0,
+  height: { xs: '35px', sm: '40px !important' },
+  width: { xs: 'auto', sm: '125px' },
+  mr: { xs: '7px', sm: '14px' },
+  mb: { xs: '10px', sm: 0 },
 };
 
 const formButtonStyle = {
@@ -336,6 +342,9 @@ const TextCasePicker = ({ editor }) => {
 };
 
 const RichTextEditor = () => {
+  const { isMobile, isTablet, isTabletLandscape } = useResponsive();
+  const isMobileView = (isMobile || isTablet) && !isTabletLandscape;
+
   const [showToolBar, setShowToolbar] = useState(true);
   const [value, setValue] = useState(initialValue);
 
@@ -356,8 +365,8 @@ const RichTextEditor = () => {
     '&:hover': {
       color: '#475266',
     },
-    width: '40px',
-    height: '40px',
+    width: { xs: '35px', sm: '40px' },
+    height: { xs: '35px', sm: '40px' },
     p: '6px 8px',
   };
 
@@ -369,15 +378,33 @@ const RichTextEditor = () => {
             style={{
               padding: 0,
               display: 'flex',
+              flexDirection: isMobileView ? 'column' : 'row',
               justifyContent: 'space-between',
+              alignItems: isMobileView ? 'start' : 'center',
             }}
           >
-            <Box>
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: {
+                  xs: 'repeat(3, 1fr)',
+                  sm: 'repeat(3, 1fr)',
+                },
+              }}
+            >
               <FontSizePicker editor={editor} />
               <LineHeightPicker editor={editor} />
               <TextCasePicker editor={editor} />
             </Box>
-            <Box>
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: {
+                  xs: 'repeat(5, 1fr)',
+                  sm: 'repeat(10, 1fr)',
+                },
+              }}
+            >
               <MarkButton
                 format="bold"
                 icon={<FormatBold sx={buttonStyle} />}
@@ -418,27 +445,29 @@ const RichTextEditor = () => {
             </Box>
           </Toolbar>
         )}
-        <Box
-          onClick={() => setShowToolbar(!showToolBar)}
-          sx={{
-            position: 'absolute',
-            left: '-50px',
-            top: showToolBar ? '13px' : '3px',
-            cursor: 'pointer',
-            opacity: 0.7,
-            '&:hover': {
-              opacity: 0.5,
-            },
-          }}
-        >
-          <AutoFixHigh
+        {!isMobileView && (
+          <Box
+            onClick={() => setShowToolbar(!showToolBar)}
             sx={{
-              height: '30px',
-              width: 'auto',
-              color: '#969696',
+              position: 'absolute',
+              left: { md: '-40px', lg: '-50px' },
+              top: showToolBar ? '13px' : '3px',
+              cursor: 'pointer',
+              opacity: 0.7,
+              '&:hover': {
+                opacity: 0.5,
+              },
             }}
-          />
-        </Box>
+          >
+            <AutoFixHigh
+              sx={{
+                height: '30px',
+                width: 'auto',
+                color: '#969696',
+              }}
+            />
+          </Box>
+        )}
       </Box>
       <Editable
         renderElement={renderElement}

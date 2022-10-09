@@ -21,7 +21,7 @@ const Navbar = ({ bgImage }) => (
           justifyContent: 'space-between',
           alignItems: 'center',
           height: '60px',
-          px: '50px',
+          px: { sm: '30px', md: '50px' },
         }}
       >
         <Box
@@ -36,7 +36,7 @@ const Navbar = ({ bgImage }) => (
             sx={{
               fontWeight: 600,
               color: '#475266',
-              fontSize: '22px',
+              fontSize: { xs: '18px', sm: '22px' },
             }}
           >
             Rich Text Editor
@@ -57,7 +57,7 @@ const Navbar = ({ bgImage }) => (
               cursor: 'pointer',
               fontWeight: 300,
               color: '#475266',
-              fontSize: '16px',
+              fontSize: { xs: '12px', sm: '16px' },
               '&:hover': {
                 color: '#000',
               },

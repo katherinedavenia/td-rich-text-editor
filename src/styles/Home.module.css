@@ -4,6 +4,9 @@
 
 .main {
   min-height: 100vh;
+  height: 100%;
+  width: 100vw;
+  overflow: hidden;
   padding: 4rem 0;
   flex: 1;
   display: flex;
