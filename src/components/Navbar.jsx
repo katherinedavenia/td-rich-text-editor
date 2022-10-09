@@ -11,6 +11,7 @@ const Navbar = ({ bgImage }) => (
       borderBottom: bgImage ? 'transparent' : '2px solid #e8e8e8',
       position: 'absolute',
       width: '100%',
+      zIndex: 15,
     }}
   >
     <Container maxWidth="xl">

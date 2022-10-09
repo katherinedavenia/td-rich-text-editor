@@ -3,13 +3,13 @@ import dynamic from 'next/dynamic';
 import { Box } from '@mui/material';
 
 const Navbar = dynamic(() => import('../components/Navbar'), {
-  suspense: true,
+  ssr: false,
 });
 const Header = dynamic(() => import('../components/Header'), {
-  suspense: true,
+  ssr: false,
 });
 const Body = dynamic(() => import('../components/Body'), {
-  suspense: true,
+  ssr: false,
 });
 
 export default function Home() {
