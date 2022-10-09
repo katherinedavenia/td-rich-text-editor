@@ -40,11 +40,16 @@ const Body = () => {
   return (
     <Box
       sx={{
-        minHeight: 'calc(100vh - 300px)',
+        minHeight: { xs: 'calc(100vh - 270px)', sm: 'calc(100vh - 300px)' },
         px: { sm: '30px', md: '50px', lg: 0 },
       }}
     >
-      <Container maxWidth="lg" sx={{ minHeight: 'calc(100vh - 300px)' }}>
+      <Container
+        maxWidth="lg"
+        sx={{
+          minHeight: { xs: 'calc(100vh - 270px)', sm: 'calc(100vh - 300px)' },
+        }}
+      >
         <Box sx={{ pt: '75px', pb: '25px' }}>
           <Slate editor={editorTitle} value={initialValueTitle}>
             <Editable

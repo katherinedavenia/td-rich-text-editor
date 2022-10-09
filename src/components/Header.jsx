@@ -24,7 +24,7 @@ const Header = ({
   return (
     <Box
       sx={{
-        height: '300px',
+        height: { xs: '270px', sm: '300px' },
         backgroundImage: bgImage
           ? `url('${bgImage}')`
           : 'linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)',
