@@ -1,6 +1,6 @@
 [linkedin]: https://www.linkedin.com/in/katherine-davenia/
 
-## Hello there! 🌱✨<img src="https://raw.githubusercontent.com/alexandre-abrioux/alexandre-abrioux/master/wave.gif" width="30px">
+## Hello there! 🌱✨👋🏼
 
 ### This is a simple Rich Text Editor created using [Slate.js](https://www.slatejs.org/)!
 
